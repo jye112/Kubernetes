@@ -68,6 +68,4 @@ spec:
 #  azureDisk: # 미리 생성한 Disk 정보 기입
 #    kind: Managed
 #    diskName: test-aks-pv
-#    diskURI: /subscriptions/63ee205d-a407-4bfc-a51f-f64085171018/resourceGroups/MC_test-rg_test-aks_koreacentral/providers/Microsoft.Compute/disks/test-aks-pv
-#    "https://jye112-plat-04-01.blob.core.windows.net/wordpress/test-aks-pv.vhd"
-#    /subscriptions/63ee205d-a407-4bfc-a51f-f64085171018/resourceGroups/MC_TEST-RG_TEST-AKS_KOREACENTRAL/providers/Microsoft.Compute/disks/kubernetes-dynamic-pvc-f69e4af0-be80-4c39-b857-f5a79031ee36
+#    diskURI: 
