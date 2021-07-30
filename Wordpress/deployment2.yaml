@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress2
+  labels:
+    app: wordpress2
+spec:
+  replicas: 30
+  selector:
+    matchLabels:
+      app: wordpress2
+  template:
+    metadata:
+      labels:
+        app: wordpress2
+    spec:
+      containers:
+      - image: wordpress:5.5.3-apache
+        name: wordpress2
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql-0.mysql
+        - name: WORDPRESS_DB_NAME
+          value: wordpress_db
+        - name: WORDPRESS_DB_USER
+          value: wp-admin
+        - name: WORDPRESS_DB_PASSWORD
+          value: dkagh1.
+        ports:
+        - containerPort: 80
+          name: wordpress2
+        resources:
+          requests:
+            cpu: 250m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+#        volumeMounts:
+#        - mountPath: "/var/www/html" 
+#          name: wordpress2
+#      volumes:
+#        - name: wordpress2
+#          persistentVolumeClaim:
+#            claimName: test-pvc-1

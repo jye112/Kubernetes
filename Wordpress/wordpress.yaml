@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - image: wordpress:5.5.3-apache
+        name: wordpress
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql-0.mysql
+        - name: WORDPRESS_DB_NAME
+          value: wordpress_db
+        - name: WORDPRESS_DB_USER
+          value: wp-admin
+        - name: WORDPRESS_DB_PASSWORD
+          value: dkagh1.
+        ports:
+        - containerPort: 80
+          name: wordpress
+        resources:
+          requests:
+            cpu: 250m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+#        volumeMounts:
+#        - mountPath: "/var/www/html" 
+#          name: wordpress-pv
+#      volumes:
+#        - name: wordpress-pv
+#          persistentVolumeClaim:
+#            claimName: wordpress-pvc
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: wordpress-pvc
+#spec:
+#  accessModes: [ "ReadWriteOnce" ]
+#  storageClassName: "default"  # kubectl get storageclass로 종류 확인
+#  resources:
+#    requests:
+#      storage: 16Gi
+#  volumeName: wordpress-pv
+#---
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: wordpress-pv
+#spec:
+#  storageClassName: "default"
+#  capacity:
+#    storage: 16Gi
+#  accessModes: [ "ReadWriteMany" ]
+#  azureDisk: # 미리 생성한 Disk 정보 기입
+#    kind: Managed
+#    diskName: test-aks-pv
+#    diskURI: /subscriptions/63ee205d-a407-4bfc-a51f-f64085171018/resourceGroups/MC_test-rg_test-aks_koreacentral/providers/Microsoft.Compute/disks/test-aks-pv
+#    "https://jye112-plat-04-01.blob.core.windows.net/wordpress/test-aks-pv.vhd"
+#    /subscriptions/63ee205d-a407-4bfc-a51f-f64085171018/resourceGroups/MC_TEST-RG_TEST-AKS_KOREACENTRAL/providers/Microsoft.Compute/disks/kubernetes-dynamic-pvc-f69e4af0-be80-4c39-b857-f5a79031ee36
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: wordpress
+##  annotations:
+##    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+#spec:
+#  type: LoadBalancer
+#  ports:
+#  - port: 80
+#  selector:
+#    app: wordpress  

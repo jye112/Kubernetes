@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  serviceName: mysql
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql:5.6
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: dkagh1.
+        - name: MYSQL_DATABASE
+          value: wordpress_db
+        - name: MYSQL_USER
+          value: wp-admin
+        - name: MYSQL_ROOT_HOST
+          value: '%'  
+        - name: MYSQL_PASSWORD 
+          value: dkagh1.
+        ports:
+        - containerPort: 3306
+          name: mysql   
+        volumeMounts:
+        - mountPath: "/var/lib/mysql"
+          name: mysql-pvc
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "managed-premium"  # kubectl get storageclass로 종류 확인
+      resources:
+        requests:
+          storage: 5Gi

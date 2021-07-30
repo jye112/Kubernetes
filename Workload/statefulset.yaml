@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  serviceName: "nginx"
+  replicas: 30
+  selector:
+    matchLabels:
+      app: nginx          # ==spec.template.metadata.labels
+  template:
+    metadata:
+      labels:
+        app: nginx         # ==spec.selector.matchLabels
+    spec:
+      containers:
+      - name: nginx
+        image: k8s.gcr.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+  #      volumeMounts:
+  #      - name: test-pvc
+  #        mountPath: /usr/share/nginx/html
+  #volumeClaimTemplates:
+  #- metadata:
+  #    name: test-pvc
+  #  spec:
+  #    storageClassName: ""    # Static Provisioning의 경우에는 주석처리!
+  #    accessModes: [ "ReadWriteMany" ]      # pv의 accessmode와 일치할것
+  #    resources:
+  #      requests:
+  #        storage: 5Gi

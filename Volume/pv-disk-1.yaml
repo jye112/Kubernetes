@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-pv-1
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 8Gi
+  accessModes: [ "ReadWriteOnce" ]
+  azureDisk: # 미리 생성한 Disk 정보 기입
+    kind: Managed
+    diskName: test-pv-disk
+    diskURI: /subscriptions/c7107052-a041-47b9-bd39-682496e017ab/resourcegroups/MC_aks-cluster-rg_aks-cluster_koreacentral/providers/Microsoft.Compute/disks/test-pv-disk

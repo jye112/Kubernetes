@@ -1,0 +1,33 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: jye112@naver.com
+    privateKeySecretRef:
+      name: letsencrypt
+    solvers:
+    - dns01:
+        azuredns:
+          clientID: 0f7a0e2e-d50c-4ac6-83f3-d5484e450e72
+          clientSecretSecretRef:
+            name: azuredns-config
+            key: client-secret
+          subscriptionID: c7107052-a041-47b9-bd39-682496e017ab
+          tenantID: a74b5451-a280-4768-a5cd-cb47af153c71
+          resourceGroupName: aks-cluster-rg
+          hostedZoneName: jye.com
+          environment: AzurePublicCloud
+
+
+          
+
+#    - http01:
+#        ingress:
+#          class: nginx
+#          podTemplate:
+#            spec:
+#              nodeSelector:
+#                "kubernetes.io/os": linux
