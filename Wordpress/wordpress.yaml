@@ -36,24 +36,24 @@ spec:
           limits:
             cpu: 500m
             memory: 256Mi
-#        volumeMounts:
-#        - mountPath: "/var/www/html" 
-#          name: wordpress-pv
-#      volumes:
-#        - name: wordpress-pv
-#          persistentVolumeClaim:
-#            claimName: wordpress-pvc
-#---
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  name: wordpress-pvc
-#spec:
-#  accessModes: [ "ReadWriteOnce" ]
-#  storageClassName: "default"  # kubectl get storageclass로 종류 확인
-#  resources:
-#    requests:
-#      storage: 16Gi
+        volumeMounts:
+        - mountPath: "/var/www/html" 
+          name: wordpress-pv
+      volumes:
+        - name: wordpress-pv
+          persistentVolumeClaim:
+            claimName: wordpress-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wordpress-pvc
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: "default"  # kubectl get storageclass로 종류 확인
+  resources:
+    requests:
+      storage: 8Gi
 #  volumeName: wordpress-pv
 #---
 #apiVersion: v1
