@@ -32,13 +32,13 @@ spec:
         ports:
         - containerPort: 3306
           name: mysql
-#        resources:
-#          requests: # 최소
-#            cpu: 250m
-#            memory: 128Mi
-#          limits:   # 최대
-#            cpu: 500m
-#            memory: 256Mi
+        resources:
+          requests: # 최소
+            cpu: 250m
+            memory: 128Mi
+          limits:   # 최대
+            cpu: 500m
+            memory: 256Mi
 #        livenessProbe:
 #          exec:
 #            command: ["mysqladmin", "ping"]
@@ -64,17 +64,6 @@ spec:
         requests:
           storage: 5Gi
 ---
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  name: mysql-pvc
-#spec:
-#  accessModes: [ "ReadWriteOnce" ]
-#  storageClassName: "default"  # kubectl get storageclass로 종류 확인
-#  resources:
-#    requests:
-#      storage: 5Gi
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -82,7 +71,7 @@ metadata:
   labels:
     app: mysql
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: mysql
   ports:
