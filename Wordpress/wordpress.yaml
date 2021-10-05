@@ -35,7 +35,7 @@ spec:
             memory: 128Mi
           limits:
             cpu: 500m
-            memory: 256Mi
+            memory: memory: 1000Mi # mysql pod 하나의 메모리 사용량이 대략적으로 400Mi 초과
         volumeMounts:
         - mountPath: "/var/www/html" 
           name: wordpress-pv
