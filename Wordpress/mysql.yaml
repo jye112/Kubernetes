@@ -38,7 +38,7 @@ spec:
             memory: 128Mi
           limits:   # 최대
             cpu: 500m
-            memory: 1000Mi  # mysql pod 하나가 450Mi 이상의 메모리 사용
+            memory: 1280Mi  # mysql pod 하나가 450Mi 이상의 메모리 사용
 #        livenessProbe:
 #          exec:
 #            command: ["mysqladmin", "ping"]
