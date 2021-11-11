@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-middle
+  namespace: akvs-ns
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: server-middle
+  template:
+    metadata:
+      labels:
+        app: server-middle
+    spec:
+      containers:
+      - name: server-middle
+        image: imageregi.azurecr.io/server-middle:$(Build.BuildId)
+        imagePullPolicy: Always
+        env:
+        - name: db_host
+          value: contents-mysql.mysql.database.azure.com
+        - name: db_name
+          value: db_node
+        - name: db_user
+          valueFrom: 
+            secretKeyRef:
+              name: akvs-un  # AKS Secret name
+              key: username  # Azure Key Vault Secret에서 가져올 값
+        - name: db_passwd
+          valueFrom:
+            secretKeyRef:
+              name: akvs-pw  # AKS Secret name
+              key: password  # Azure Key Vault Secret에서 가져올 값
+        - name: db_port
+          value: "3306"
+        ports:
+        - containerPort: 3001
+        resources:
+          requests:
+            cpu: 250m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+        readinessProbe:
+          initialDelaySeconds: 5 
+          periodSeconds: 3
+          timeoutSeconds: 5 
+          successThreshold: 1 
+          failureThreshold: 1 
+          httpGet: 
+            path: / 
+            port: 3001
+        livenessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 3
+          timeoutSeconds: 5 
+          successThreshold: 1 
+          failureThreshold: 1 
+          httpGet:
+            path: /
+            port: 3001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-middle
+  namespace: akvs-ns
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    protocol: TCP
+    port: 3001
+    targetPort: 3001
+  selector:
+    app: server-middle

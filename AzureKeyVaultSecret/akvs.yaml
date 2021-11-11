@@ -1,0 +1,33 @@
+apiVersion: spv.no/v1
+kind: AzureKeyVaultSecret
+metadata:
+  name: username
+  namespace: akvs-ns   # 반드시 App이 배포되는 네임스페이스와 동일해야 함
+spec:
+  vault:
+    name: db-secret  # Azure key vault name
+    object:
+      name: username # Azure key vault secret name
+      type: secret   
+  output:
+    secret: 
+      name: akvs-un  # AKS Secret name
+      dataKey: username    # Azure key vault secret name
+      type: opaque
+---
+apiVersion: spv.no/v1alpha1
+kind: AzureKeyVaultSecret
+metadata:
+  name: password
+  namespace: akvs-ns
+spec:
+  vault:
+    name: db-secret
+    object:
+      name: password
+      type: secret
+  output:
+    secret: 
+      name: akvs-pw
+      dataKey: password
+      type: opaque
