@@ -41,16 +41,77 @@ helm install nginx-ingress ingress-nginx/ingress-nginx `
 
 ## 3. 애플리케이션 배포
 - Ingress Controller 작동 여부를 확인하기 위해 애플리케이션을 배포한다.
+
+### 3-1) HTTP를 통해 ASK 서비스 노출
+- 애플리케이션 생성
 ```
 kubectl apply -f aks-helloworld-one.yaml
 kubectl apply -f aks-helloworld-two.yaml
 ```
 
-## 4. Ingress 생성
-- 애플리케이션이 실행되어도 ClusterIP 형식의 서비스로 구성되며 인터넷에 액세스할 수 없다.
-- 애플리케이션이 공개적으로 노출될 수 있도록 Ingress 리소스를 생성한다.
-- Ingress는 두 애플리케이션 중 하나로 트래픽을 라우팅하는 규칙을 구성한다.
-```
-kubectl apply -f ingress-http.yaml -n ingress-basic
-```
+- Ingress 생성
+  - 애플리케이션이 실행되어도 ClusterIP 형식의 서비스로 구성되며 인터넷에 액세스할 수 없다.
+  - 애플리케이션이 공개적으로 노출될 수 있도록 Ingress 리소스를 생성한다.
+  - Ingress는 두 애플리케이션 중 하나로 트래픽을 라우팅하는 규칙을 구성한다.
+  ```
+  kubectl apply -f ingress-http.yaml -n ingress-basic
+  ```
+  
 - 애플리케이션이 정상적으로 작동하는지 Public IP를 브라우저에 입력하여 확인한다.
+
+### 3-2) HTTPS를 통해 ASK 서비스 노출
+- DNS 영역에 A 레코드 추가
+  - 먼저 Azure DNS 리소스를 생성한다.
+  - NGINX 서비스의 Public IP 주소를 사용하여 DNS 영역에 A 레코드를 추가한다.
+  ```
+  az network dns record-set a add-record `
+    --resource-group myResourceGroup `
+    --zone-name MY_CUSTOM_DNS `
+    --record-set-name * `
+    --ipv4-address MY_EXTERNAL_IP
+  ```
+- Host PC의 Hosts 파일을 관리자 권한으로 수정한다.(C:\Windows\System32\drivers\etc)
+```
+MY_EXTERNAL_IP   hello-world-ingress.MY_CUSTOM_DNS
+```
+- Cert-manager 설치
+  - cert-manager는 기본 k8s 인증서를 관리하는 컨트롤러이다.
+  - Let 's Encrypt , HashiCorp Vault , Venafi, 간단한 서명 키 쌍 또는 자체 서명과 같은 다양한 소스에서 인증서를 발급하는 데 도움이 된다.
+  ```
+  kubectl label namespace ingress-basic cert-manager.io/disable-validation=true
+  # cert-manager namespace 생성
+  kubectl create namespace cert-manager
+
+  # Jetstack Helm Repository 추가
+  helm repo add jetstack https://charts.jetstack.io
+  helm repo update
+
+  # cert-manager helm chart 설치
+  helm install cert-manager jetstack/cert-manager `
+    --namespace cert-manager `
+    --set installCRDs=true `
+    --set nodeSelector."kubernetes\.io/os"=linux `
+    --set webhook.nodeSelector."kubernetes\.io/os"=linux `
+    --set cainjector.nodeSelector."kubernetes\.io/os"=linux
+  ```
+- CA 클러스터 발급자 만들기
+  - 인증서가 발급되기 전에 cert-manager에게는 Issuer 또는 ClusterIssuer 리소스가 필요하다.
+  - Issuer은 단일 네임스페이스에서 작동하고 ClusterIssuer은 모든 네임스페이스에서 작동한다.
+  ```
+  kubectl apply -f cluster-issuer.yaml
+  ```
+
+- 애플리케이션 생성
+```
+kubectl apply -f aks-helloworld-one.yaml
+kubectl apply -f aks-helloworld-two.yaml
+```
+
+- Ingress 생성
+```
+kubectl apply -f ingress-https.yaml -n ingress-basic
+```
+
+- cert-manager가 자동으로 인증서를 만든다.
+
+
