@@ -43,29 +43,3 @@ spec:
         - name: wordpress-pv
           persistentVolumeClaim:
             claimName: wordpress-pvc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: wordpress-pvc
-spec:
-  accessModes: [ "ReadWriteOnce" ]
-  storageClassName: "managed-premium"  
-  resources:
-    requests:
-      storage: 5Gi
-  volumeName: wordpress-pv
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: wordpress-pv
-spec:
-  storageClassName: "default"
-  capacity:
-    storage: 16Gi
-  accessModes: [ "ReadWriteMany" ]
-  azureDisk: # 미리 생성한 Disk 정보 기입
-    kind: Managed
-    diskName: test-aks-pv
-    diskURI: 
