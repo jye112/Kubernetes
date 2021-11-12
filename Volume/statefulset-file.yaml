@@ -34,10 +34,10 @@ spec:
           name: mysql       
         volumeMounts:
         - mountPath: "/var/lib/mysql"
-          name: test-pvc-file-1
+          name: pvc-file-sc-1
   volumeClaimTemplates:
   - metadata:
-      name: test-pvc-file-1
+      name: pvc-file-sc-1
     spec:
       accessModes: [ "ReadWriteMany" ]
       storageClassName: "azurefile"  
