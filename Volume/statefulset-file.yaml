@@ -37,7 +37,7 @@ spec:
           name: mysql-pvc
   volumeClaimTemplates:
   - metadata:
-      name: mysql-pvc
+      name: test-pvc-file-1
     spec:
       accessModes: [ "ReadWriteMany" ]
       storageClassName: "azurefile"  
