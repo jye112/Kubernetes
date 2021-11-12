@@ -59,36 +59,3 @@ az role assignment create --role Reader --assignee $MID_CLIENT_ID --scope $aksVm
 
 ### Get AKS Credential ###
 az aks get-credentials -n $AKS_SERVICE -g $AKS_SERVICE_RG
-
-
-##########################################################################################
-
-
-### Pod-aad Install ###
-kubectl create ns pod-aad
-
-helm repo add aad-pod-identity https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
-helm repo update
-# Helm 3
-helm install aad-pod-identity aad-pod-identity/aad-pod-identity -n pod-aad
-
-
-### AGIC Install ###
-helm repo add application-gateway-kubernetes-ingress https://appgwingress.blob.core.windows.net/ingress-azure-helm-package/
-helm repo update
-
-kubectl create namespace agic
-
-helm install agic application-gateway-kubernetes-ingress/ingress-azure `
-     --namespace agic `
-     --set appgw.name=$AGW_NAME `
-     --set appgw.resourceGroup=$AGW_RG `
-     --set appgw.subscriptionId=$SUB_ID `
-     --set appgw.usePrivateIP=false `
-     --set appgw.shared=false `
-     --set armAuth.type=aadPodIdentity `
-     --set armAuth.identityResourceID=$MID_ID `
-     --set armAuth.identityClientID=$MID_CLIENT_ID `
-     --set rbac.enabled=true `
-     --set verbosityLevel=3 `
-     --set kubernetes.ingressClass=$INGRESS_CLASS
