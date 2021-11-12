@@ -1,0 +1,12 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azurefile
+provisioner: kubernetes.io/azure-file
+reclaimPolicy: Retain
+parameters:
+  skuName: Standard_LRS
+  location: koreacentral
+  storageAccount: azure_storage_account_name  
+  # 이미 존재하는 Storage Account 사용 원할 시 이름 명시                            
+  # 없으면 생략 가능 -> 자동으로 생성됨
