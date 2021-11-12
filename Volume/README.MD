@@ -155,7 +155,7 @@ kubectl apply -f pv-file-1.yaml
 - Storage Class
   - PV로 사용할 스토리지의 클래스(분류, 정책, 종류)에 대한 정보를 정의할 수 있는 리소스이다.
   - PVC 생성할 때 혹은 파드 생성할 때 Storage Class Name을 선언하면, 선언한 Storage Class 조건에 맞는 PV가 자동으로 생성된다.
-  - Azure에서는 기본적으로 4개의 Storage Class를 제공한다. (azurefile, azurefile-premium, defulat/azuredisk, managed-premium)
+  - Azure에서는 기본적으로 4개의 Storage Class를 제공한다. (azurefile, azurefile-premium, default/azuredisk, managed-premium)
 
 ### 1. Azure Disk
 #### 1-1. PVC 생성할 때 Storage Class Name 명시
