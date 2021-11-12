@@ -31,3 +31,30 @@ spec:
           serviceName: aks-helloworld-one
           servicePort: 80
         path: /(.*)
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-world-ingress-static
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /static/$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    acme.cert-manager.io/http01-edit-in-place: "true"
+spec:
+  tls:
+  - hosts:
+    - <DNS Address>
+    secretName: tls-secret
+  rules:
+  - host: <DNS Address>
+    http:
+      paths:
+      - backend:
+          service:
+            name: aks-helloworld-one
+            port: 
+              number: 80
+        path: /static(/|$)(.*)
+        pathType: Prefix
