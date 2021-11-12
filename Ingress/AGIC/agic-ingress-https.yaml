@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - helloworld-ingress.agic.jye.com
+    - hello-world-ingress.MY_CUSTOM_DNS
     secretName: tls-secret
   rules:
-  - host: <DNS Address>
+  - host: hello-world-ingress.MY_CUSTOM_DNS
     http:
       paths:
       - backend:
