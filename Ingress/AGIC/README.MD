@@ -91,7 +91,7 @@ kubectl apply -f agic-ingress-http.yaml -n agic
   ```
   - Host PC의 Hosts 파일을 관리자 권한으로 수정한다.(C:\Windows\System32\drivers\etc)
   ```
-  MY_EXTERNAL_IP   MY_CUSTOM_DNS
+  MY_EXTERNAL_IP   hello-world-ingress.MY_CUSTOM_DNS
   ```
 
 - Cert-manager 설치
