@@ -88,8 +88,7 @@ spec:
   volumes:
   - name: azure
     persistentVolumeClaim:
-      claimName: test-pvc-1
-  
+      claimName: pvc-disk-1
 ```
   
 ### 2. Azure Files (Storage Account)
