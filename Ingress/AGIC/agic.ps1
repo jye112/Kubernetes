@@ -1,5 +1,5 @@
 ### 변수 설정 ###
-$SUB_ID="c7107052-a041-47b9-bd39-682496e017ab"
+$SUB_ID=""
 
 $VNET_RG="aks-cluster-rg"
 $VNET="aks-vnet"
