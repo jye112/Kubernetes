@@ -5,7 +5,7 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: jye112@naver.com
+    email: <Email 주소>
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
