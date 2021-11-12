@@ -141,6 +141,9 @@ kubectl apply -f pv-file-1.yaml
 ```
 - Statefulset 생성
   - volumeClaimTemplate을 넣어서 생성하면 PVC가 Replica 개수만큼 자동 생성되면서 미리 생성한 PV에 각각 연결된다.
+  ```
+  kubectl apply -f statefulset-file.yaml
+  ```
 
 
 ## Azure Kubernetes에서의 Dynamic Provisioning
