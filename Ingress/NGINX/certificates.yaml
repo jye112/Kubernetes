@@ -5,13 +5,13 @@ metadata:
 spec:
   secretName: tls-secret
   dnsNames:
-  - hw-ingress.jye.com
+  - hello-world-ingress.MY_CUSTOM_DNS
   acme:
     config:
     - http01:
         ingressClass: nginx
       domains:
-      - hw-ingress.jye.com
+      - hello-world-ingress.MY_CUSTOM_DNS
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
