@@ -66,9 +66,31 @@ spec:
 - Pod 생성
   - 'persistentVolumeClaim' 부분에 PVC의 이름을 기입한다.
   - PVC를 통해 파드와 PV가 연결되면서 파드는 PV에 붙어있는 Azure Disk를 마운트하여 사용할 수 있게 된다.
-  ```
-  kubectl apply -f pod-disk.yaml
-  ```
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - image: mcr.microsoft.com/oss/nginx/nginx:1.15.5-alpine
+    name: mypod
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 250m
+        memory: 256Mi
+    volumeMounts:
+      - name: azure
+        mountPath: /mnt/azure
+  volumes:
+  - name: azure
+    persistentVolumeClaim:
+      claimName: test-pvc-1
+  
+```
   
 ### 2. Azure Files (Storage Account)
 - Azure Files는 여러 파드에 접근 가능하다.
