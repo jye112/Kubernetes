@@ -39,7 +39,7 @@ spec:
       - name: azure
         mountPath: /mnt/azure
   volumes: 
-    - name: test-pv-1
+    - name: pv-disk
       azureDisk:
         kind: Managed
         diskName: myAKSDisk
@@ -52,16 +52,16 @@ spec:
   ```
   azureDisk: 
     kind: Managed
-    diskName: test-pv-disk
+    diskName: pv-disk
     diskURI: <생성한 Disk URI 주소>
   ```
   ```
-  kubectl apply -f pv-disk-1.yaml
+  kubectl apply -f pv-disk.yaml
   ```
 - PVC 생성
   - 'volumeName' 부분에 PV의 이름을 기입한다.
   ```
-  kubectl apply -f pvc-disk-1.yaml
+  kubectl apply -f pvc-disk.yaml
   ```
 - Pod 생성
   - 'persistentVolumeClaim' 부분에 PVC의 이름을 기입한다.
@@ -88,7 +88,7 @@ spec:
   volumes:
   - name: azure
     persistentVolumeClaim:
-      claimName: pvc-disk-1
+      claimName: pvc-disk
 ```
   
 ### 2. Azure Files (Storage Account)
@@ -139,12 +139,12 @@ spec:
     readOnly: false
   ```
   ```
-  kubectl apply -f pv-file-1.yaml
+  kubectl apply -f pv-file.yaml
   ```
 - PVC 생성
   - 'volumeName' 부분에 PV의 이름을 기입한다.
   ```
-  kubectl apply -f pvc-file-1.yaml
+  kubectl apply -f pvc-file.yaml
   ```
 - Deployment 생성
   - 'persistentVolumeClaim' 부분에 PVC의 이름을 기입한다.
@@ -158,7 +158,7 @@ spec:
 
 - Azure Files 개수만큼 PV 생성
 ```
-kubectl apply -f pv-file-1.yaml
+kubectl apply -f pv-file.yaml
 ```
 - Statefulset 생성
   - volumeClaimTemplate을 넣어서 생성하면 PVC가 Replica 개수만큼 자동 생성되면서 미리 생성한 PV에 각각 연결된다.
@@ -183,7 +183,7 @@ kubectl apply -f pv-file-1.yaml
 - PVC 이름은 지정된대로 생성되지만 PV 이름은 랜덤하게 생성된다.
 - PVC는 아직 PVC에 연결되지 않은, 가장 먼저 생성된 PV를 찾아 연결한다.
 ```
-kubectl apply -f pvc-disk-sc-1.yaml
+kubectl apply -f pvc-disk-sc.yaml
 ```
 #### 1-2. 파드 생성할 떄 volumeClaimTemplates 만들어 Storage Class Name 명시 -> Statefulset만 가능
 - PV/PVC 모두 랜덤하게 생성됨
@@ -196,7 +196,7 @@ kubectl apply -f statefulset-disk-sc.yaml
 - PVC 이름은 지정된대로 생성되지만 PV 이름은 랜덤하게 생성된다.
 - PVC는 아직 PVC에 연결되지 않은, 가장 먼저 생성된 PV를 찾아 연결된다.
 ```
-kubectl apply -f pvc-file-sc-1.yaml
+kubectl apply -f pvc-file-sc.yaml
 ```
 #### 2-2. 파드 생성할 때 volumeClaimTemplates 만들어 Storage Class Name 명시 -> Statefulset만 가능
 - PV/PVC 이름 모두 랜덤하게 생성
