@@ -37,7 +37,7 @@ spec:
           name: pvc-disk-sc-1
   volumeClaimTemplates:
   - metadata:
-      name: pvc-disk-sc-1
+      name: pvc-disk
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: "managed-premium"  # kubectl get storageclass로 종류 확인
