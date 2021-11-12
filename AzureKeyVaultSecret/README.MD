@@ -29,6 +29,9 @@ kubectl apply -f akvs.yaml
 ### 4. 애플리케이션 배포
 - PaaS DB를 연결하는 애플리케이션을 배포합니다.
 - 'env' 부분에 DB 정보를 기입하게 되는데, 이때 Username과 Password와 같은 시크릿한 값들은 이미 클러스터 내에 Secret 리소스로 저장해두었기 때문에 해당 값들을 직접 기입하는 것이 아니라 각각의 Secret 이름만 적어주면 됩니다.
+```
+kubectl apply -f db-app.yaml 
+```
 
 ```
 - name: db_user
