@@ -39,8 +39,8 @@ spec:
   - metadata:
       name: mysql
     spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "azuredisk" 
+      accessModes: [ "ReadWriteMany" ]
+      storageClassName: "azurefiles" 
       resources:
         requests:
           storage: 5Gi
