@@ -42,4 +42,4 @@ spec:
       volumes:
         - name: wordpress-pv
           persistentVolumeClaim:
-            claimName: test-pvc-1
+            claimName: test-pvc-file-1
