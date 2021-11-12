@@ -40,7 +40,7 @@ spec:
       name: mysql
     spec:
       accessModes: [ "ReadWriteMany" ]
-      storageClassName: "azurefiles" 
+      storageClassName: "azurefile" 
       resources:
         requests:
           storage: 5Gi
