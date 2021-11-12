@@ -7,7 +7,7 @@ spec:
   capacity:
     storage: 8Gi
   accessModes: [ "ReadWriteOnce" ]
-  azureDisk: # 미리 생성한 Disk 정보 기입
+  azureDisk: 
     kind: Managed
     diskName: test-pv-disk
-    diskURI: /subscriptions/
+    diskURI: <생성한 Disk URI 주소>
