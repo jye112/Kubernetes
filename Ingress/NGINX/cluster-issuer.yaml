@@ -1,33 +1,18 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt
+  name: letsencrypt-staging
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    email: jye112@naver.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: <Email 주소>
     privateKeySecretRef:
-      name: letsencrypt
+      name: letsencrypt-staging
     solvers:
-    - dns01:
-        azuredns:
-          clientID: 
-          clientSecretSecretRef:
-            name: azuredns-config
-            key: client-secret
-          subscriptionID: 
-          tenantID: 
-          resourceGroupName: aks-cluster-rg
-          hostedZoneName: jye.com
-          environment: AzurePublicCloud
-
-
-          
-
-#    - http01:
-#        ingress:
-#          class: nginx
-#          podTemplate:
-#            spec:
-#              nodeSelector:
-#                "kubernetes.io/os": linux
+    - http01:
+        ingress:
+          class: azure/application-gateway
+          podTemplate:
+            spec:
+              nodeSelector:
+                "kubernetes.io/os": linux
