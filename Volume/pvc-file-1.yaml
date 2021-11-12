@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  volumeName: test-pv-1
+  volumeName: test-pv-file-1
