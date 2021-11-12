@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: test-pv-disk-1
+  name: pv-disk
 spec:
   storageClassName: ""
   capacity:
@@ -9,5 +9,5 @@ spec:
   accessModes: [ "ReadWriteOnce" ]
   azureDisk: 
     kind: Managed
-    diskName: test-pv-disk
+    diskName: auzre-disk
     diskURI: <생성한 Disk URI 주소>
